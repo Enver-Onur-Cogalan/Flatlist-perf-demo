@@ -2,10 +2,6 @@
 
 > Benchmarking **Baseline** vs **Optimized** implementations of `FlatList` — accompanying code for the Medium article **“React Native’de FlatList Performansını Artıran Basit İpuçları (2025)”**. Fork it, run it, and _feel_ the FPS difference.
 
-<p align="center">
-  <img src="screens/hero.png" alt="Baseline vs Optimized preview" width="720" />
-</p>
-
 ---
 
 ## 📸 Quick Look
@@ -65,11 +61,6 @@ $ yarn cross-env BUILD_TYPE=baseline  yarn android
 3. Export the graph PNG and drop it into `/screens`.  
 4. Update the table above with your numbers.
 
-<p align="center">
-  <img src="screens/flipper-baseline.png" alt="Baseline FPS graph" width="320" />
-  <img src="screens/flipper-optimized.png" alt="Optimized FPS graph" width="320" />
-</p>
-
 ---
 
 ## 🔍 What Was Optimized?
@@ -80,7 +71,7 @@ $ yarn cross-env BUILD_TYPE=baseline  yarn android
 - **Lazy image loading** (`react-native-fast-image`).  
 - **Optional:** Remove `removeClippedSubviews` when it hurts `onEndReached`.
 
-_Want the full story?_ → [Read the Medium article →](https://medium.com/@onurcogalan_96763/react-native-flatlist-performansını-zirveye-çıkaracak-8-basit-i̇pucu-bc49925908145)
+_Want the full story?_ → [Read the Medium article →](https://medium.com/@onurcogalan_96763/react-native-flatlist-performansını-zirveye-çıkaracak-8-basit-i̇pucu-bc4992590814)
 
 ---
 
