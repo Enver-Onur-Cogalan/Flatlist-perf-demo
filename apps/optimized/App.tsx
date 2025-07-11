@@ -19,7 +19,7 @@ const createPage = (page: number): Item[] =>
         return { id: n, title: `Item #${n}` };
     });
 
-const ROW_HEIGHT = 52;
+const ROW_HEIGHT = 53;
 
 /** Row component - memoized to avoid unnecassary re-renders */
 const ItemRow = memo(({ title }: { title: string }) => (
@@ -48,11 +48,12 @@ export default function App() {
                 const nextPage = page + 1;
                 const nextData = createPage(nextPage);
                 // Stop after 1000 items for demo
-                if (nextPage * PAGE_SIZE >= 1000) {
+                if ((nextPage + 1) * PAGE_SIZE >= 1000) {
                     setHasMore(false);
                 }
                 setData(prev => [...prev, ...nextData]);
                 setPage(nextPage);
+                setLoading(false);
             }, 500);
         }, 800),
         [loading, hasMore, page],
@@ -68,6 +69,7 @@ export default function App() {
         [],
     );
 
+    console.log('data length', data.length);
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
