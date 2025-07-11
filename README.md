@@ -41,6 +41,7 @@ $ git clone https://github.com/Enver-Onur-Cogalan/Flatlist-perf-demo.git
 $ cd FlatlistPerfDemo
 
 # 2 · Yarn install
+yarn install
 cd ios
 pod install
 cd ..
