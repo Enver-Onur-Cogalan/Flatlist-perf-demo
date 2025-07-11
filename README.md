@@ -1,97 +1,97 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# ⚡️ React Native FlatList Performance Demo
 
-# Getting Started
+> Benchmarking **Baseline** vs **Optimized** implementations of `FlatList` — accompanying code for the Medium article **“React Native’de FlatList Performansını Artıran Basit İpuçları (2025)”**. Fork it, run it, and _feel_ the FPS difference.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+<p align="center">
+  <img src="screens/hero.png" alt="Baseline vs Optimized preview" width="720" />
+</p>
 
-## Step 1: Start Metro
+---
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 📸 Quick Look
+| Build | UI FPS *(avg)* | JS FPS *(avg)* | Dropped Frames |
+|-------|---------------|----------------|----------------|
+| **Baseline** | **38** | 35 | 280 |
+| **Optimized** | **58** | 58 | 74 |
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+<sup>Measured on iPhone 11 (iOS 18, Release + Hermes)</sup>
 
-```sh
-# Using npm
-npm start
+> Replace the numbers with _your own_ measurements! See **`/screens`** for template PNGs/GIFs.
 
-# OR using Yarn
-yarn start
+---
+
+## 🗂️ Project Structure
+```text
+flatlist-perf-demo/
+├─ apps/
+│  ├─ baseline/      # Default FlatList settings (anti‑patterns enabled)
+│  └─ optimized/     # Tweak #1‑#6 from the Medium article applied
+├─ screens/          # Benchmarks & GIFs for the README
+├─ App.tsx           # Root toggle (env var / debug button)
+├─ package.json      # Yarn Workspaces & helper scripts
+└─ README.md
 ```
 
-## Step 2: Build and run your app
+### Single‑Project vs Monorepo
+- **Quick demo?** Use the default _single‑project_ variant (`App.tsx` toggles build).  
+- **Side‑by‑side simulators?** Keep the **monorepo** layout (2 RN apps under `apps/`).
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+---
 
-### Android
+## 🚀 Getting Started
+```bash
+# 1 · Clone
+$ git clone https://github.com/Enver-Onur-Cogalan/Flatlist-perf-demo.git
+$ cd FlatlistPerfDemo
 
-```sh
-# Using npm
-npm run android
+# 2 · Install deps (shared node_modules via Yarn workspaces)
+$ yarn
 
-# OR using Yarn
-yarn android
+# 3 · iOS
+$ BUILD_TYPE=baseline  yarn ios      # Baseline build
+$ BUILD_TYPE=optimized yarn ios      # Optimized build
+
+# 4 · Android (cross‑env for Windows/Powershell)
+$ yarn add -D cross-env
+$ yarn cross-env BUILD_TYPE=baseline  yarn android
 ```
+> ⚠️  If you prefer independent apps, run `yarn ios:baseline` / `yarn ios:optimized` scripts instead.
 
-### iOS
+---
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## 📊 Recording FPS (Flipper)
+1. Install [Flipper](https://flipper.dev) & open the **Performance** plug‑in.  
+2. Hit **Record**, scroll the list for 10 seconds, then stop.  
+3. Export the graph PNG and drop it into `/screens`.  
+4. Update the table above with your numbers.
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+<p align="center">
+  <img src="screens/flipper-baseline.png" alt="Baseline FPS graph" width="320" />
+  <img src="screens/flipper-optimized.png" alt="Optimized FPS graph" width="320" />
+</p>
 
-```sh
-bundle install
-```
+---
 
-Then, and every time you update your native dependencies, run:
+## 🔍 What Was Optimized?
+- **Stable `keyExtractor`** — no more index keys.  
+- **Window tuning:** `initialNumToRender`, `maxToRenderPerBatch`, `windowSize`.  
+- **Throttled pagination** with `lodash.throttle`.  
+- **`React.memo`** + fixed `ROW_HEIGHT` via `getItemLayout`.  
+- **Lazy image loading** (`react-native-fast-image`).  
+- **Optional:** Remove `removeClippedSubviews` when it hurts `onEndReached`.
 
-```sh
-bundle exec pod install
-```
+_Want the full story?_ → [Read the Medium article →](https://medium.com/@onurcogalan_96763/react-native-flatlist-performansını-zirveye-çıkaracak-8-basit-i̇pucu-bc49925908145)
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+---
 
-```sh
-# Using npm
-npm run ios
+## 🤝 Contributing
+Issues, pull requests, and ⭐ stars are welcome!
 
-# OR using Yarn
-yarn ios
-```
+1. Fork → feature branch (`git checkout -b feat/your-tweak`)  
+2. Commit w/ conventional message (`feat: add experimental windowSize`)  
+3. PR against `main`.
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+---
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## 🪪 License
+MIT © 2025 Enver Onur Çoğalan
