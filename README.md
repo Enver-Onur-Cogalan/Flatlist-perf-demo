@@ -40,7 +40,10 @@ flatlist-perf-demo/
 $ git clone https://github.com/Enver-Onur-Cogalan/Flatlist-perf-demo.git
 $ cd FlatlistPerfDemo
 
-# 2 · Install deps (shared node_modules via Yarn workspaces)
+# 2 · Yarn install
+cd ios
+pod install
+cd ..
 $ yarn
 
 # 3 · iOS
